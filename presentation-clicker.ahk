@@ -16,20 +16,27 @@ GetPowerPointWindow()
     return ""
 }
 
+SendToPowerPoint(key)
+{
+    window := GetPowerPointWindow()
+
+    if !window
+        return
+
+    WinActivate(window)
+
+    if WinWaitActive(window, , 1)
+        Send(key)
+}
+
 ; Logitech Next button → PowerPoint next slide
 PgDn::
 {
-    hwnd := GetPowerPointWindow()
-
-    if hwnd
-        ControlSend("{Right}", , hwnd)
+    SendToPowerPoint("{Right}")
 }
 
 ; Logitech Previous button → PowerPoint previous slide
 PgUp::
 {
-    hwnd := GetPowerPointWindow()
-
-    if hwnd
-        ControlSend("{Left}", , hwnd)
+    SendToPowerPoint("{Left}")
 }
