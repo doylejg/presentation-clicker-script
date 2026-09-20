@@ -6,9 +6,14 @@ GetPowerPointWindow()
     hwnd := WinExist("ahk_class PodiumParent ahk_exe POWERPNT.EXE")
 
     if hwnd
-        return hwnd
+        return "ahk_id " hwnd
 
-    return WinExist("ahk_class screenClass ahk_exe POWERPNT.EXE")
+    hwnd := WinExist("ahk_class screenClass ahk_exe POWERPNT.EXE")
+
+    if hwnd
+        return "ahk_id " hwnd
+
+    return ""
 }
 
 ; Logitech Next button → PowerPoint next slide

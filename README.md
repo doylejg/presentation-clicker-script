@@ -21,7 +21,7 @@ AutoHotkey v2 script for using Logitech presenter buttons to control PowerPoint 
 
 ## Run the script
 
-1. Open `presentation-clicker.ahk`.
+1. Locate `presentation-clicker.ahk` in the folder you downloaded or cloned.
 2. Double-click the file to run it with AutoHotkey.
 3. Start your PowerPoint slideshow or presenter view.
 4. Use the presenter buttons that send `PgDn` and `PgUp` to move forward and backward through slides.
