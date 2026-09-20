@@ -28,10 +28,10 @@ SendToPowerPoint(key, keyName, virtualKey)
     try control := ControlGetFocus(window)
 
     if control
-        ControlSend(key, control, window)
+        ControlSend(control, key, window)
     else {
         scanCode := GetKeySC(keyName)
-        keyDownLParam := 1 | (scanCode << 16)
+        keyDownLParam := 1 | (scanCode << 16) | 0x01000000
         keyUpLParam := keyDownLParam | 0xC0000000
 
         PostMessage(0x100, virtualKey, keyDownLParam, , window)
