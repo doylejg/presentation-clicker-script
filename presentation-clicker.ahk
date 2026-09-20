@@ -16,7 +16,7 @@ GetPowerPointWindow()
     return ""
 }
 
-SendToPowerPoint(key)
+SendToPowerPoint(key, virtualKey)
 {
     window := GetPowerPointWindow()
 
@@ -29,18 +29,20 @@ SendToPowerPoint(key)
 
     if control
         ControlSend(key, control, window)
-    else
-        ControlSend(key, , window)
+    else {
+        PostMessage(0x100, virtualKey, 1, , window)
+        PostMessage(0x101, virtualKey, 0xC0000001, , window)
+    }
 }
 
 ; Logitech Next button → PowerPoint next slide
 PgDn::
 {
-    SendToPowerPoint("{Right}")
+    SendToPowerPoint("{Right}", 0x27)
 }
 
 ; Logitech Previous button → PowerPoint previous slide
 PgUp::
 {
-    SendToPowerPoint("{Left}")
+    SendToPowerPoint("{Left}", 0x25)
 }
