@@ -16,6 +16,23 @@ GetPowerPointWindow()
     return 0
 }
 
+GetPowerPointInputTarget(hwnd)
+{
+    pid := 0
+    threadId := DllCall("GetWindowThreadProcessId", "Ptr", hwnd, "UInt*", pid, "UInt")
+    guiThreadInfo := Buffer(8 + (A_PtrSize * 6) + 16, 0)
+    NumPut("UInt", guiThreadInfo.Size, guiThreadInfo, 0)
+
+    if threadId && DllCall("GetGUIThreadInfo", "UInt", threadId, "Ptr", guiThreadInfo.Ptr) {
+        focusedHwnd := NumGet(guiThreadInfo, 8 + A_PtrSize, "Ptr")
+
+        if focusedHwnd
+            return focusedHwnd
+    }
+
+    return hwnd
+}
+
 SendToPowerPoint(key, keyName, virtualKey)
 {
     hwnd := GetPowerPointWindow()
@@ -43,10 +60,11 @@ SendToPowerPoint(key, keyName, virtualKey)
         keyDownLParam := keyDownLParam | 0x01000000
 
     keyUpLParam := keyDownLParam | 0xC0000000
+    targetHwnd := GetPowerPointInputTarget(hwnd)
 
-    PostMessage(0x100, virtualKey, keyDownLParam, , hwnd)
+    PostMessage(0x100, virtualKey, keyDownLParam, , targetHwnd)
     Sleep(10)
-    PostMessage(0x101, virtualKey, keyUpLParam, , hwnd)
+    PostMessage(0x101, virtualKey, keyUpLParam, , targetHwnd)
 }
 
 ; Logitech Next button → PowerPoint next slide
