@@ -42,8 +42,9 @@ SendToPowerPoint(key, keyName, virtualKey)
         keyDownLParam := 1 | (scanCode << 16) | 0x01000000
         keyUpLParam := keyDownLParam | 0xC0000000
 
-        SendMessage(0x100, virtualKey, keyDownLParam, , targetHwnd)
-        SendMessage(0x101, virtualKey, keyUpLParam, , targetHwnd)
+        PostMessage(0x100, virtualKey, keyDownLParam, , targetHwnd)
+        Sleep(10)
+        PostMessage(0x101, virtualKey, keyUpLParam, , targetHwnd)
     }
 }
 
