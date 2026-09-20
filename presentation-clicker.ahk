@@ -23,10 +23,14 @@ SendToPowerPoint(key)
     if !window
         return
 
-    WinActivate(window)
+    control := ""
 
-    if WinWaitActive(window, , 1)
-        Send(key)
+    try control := ControlGetFocus(window)
+
+    if control
+        ControlSend(key, control, window)
+    else
+        ControlSend(key, , window)
 }
 
 ; Logitech Next button → PowerPoint next slide
