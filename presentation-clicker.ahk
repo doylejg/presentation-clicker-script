@@ -30,12 +30,20 @@ SendToPowerPoint(key, keyName, virtualKey)
     if control
         ControlSend(control, key, hwnd)
     else {
+        targetHwnd := hwnd
+        controls := []
+
+        try controls := WinGetControlsHwnd(hwnd)
+
+        if controls.Length
+            targetHwnd := controls[1]
+
         scanCode := GetKeySC(keyName)
         keyDownLParam := 1 | (scanCode << 16) | 0x01000000
         keyUpLParam := keyDownLParam | 0xC0000000
 
-        PostMessage(0x100, virtualKey, keyDownLParam, , hwnd)
-        PostMessage(0x101, virtualKey, keyUpLParam, , hwnd)
+        PostMessage(0x100, virtualKey, keyDownLParam, , targetHwnd)
+        PostMessage(0x101, virtualKey, keyUpLParam, , targetHwnd)
     }
 }
 
