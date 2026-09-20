@@ -6,36 +6,36 @@ GetPowerPointWindow()
     hwnd := WinExist("ahk_class PodiumParent ahk_exe POWERPNT.EXE")
 
     if hwnd
-        return "ahk_id " hwnd
+        return hwnd
 
     hwnd := WinExist("ahk_class screenClass ahk_exe POWERPNT.EXE")
 
     if hwnd
-        return "ahk_id " hwnd
+        return hwnd
 
-    return ""
+    return 0
 }
 
 SendToPowerPoint(key, keyName, virtualKey)
 {
-    window := GetPowerPointWindow()
+    hwnd := GetPowerPointWindow()
 
-    if !window
+    if !hwnd
         return
 
     control := ""
 
-    try control := ControlGetFocus(window)
+    try control := ControlGetFocus(hwnd)
 
     if control
-        ControlSend(control, key, window)
+        ControlSend(control, key, hwnd)
     else {
         scanCode := GetKeySC(keyName)
         keyDownLParam := 1 | (scanCode << 16) | 0x01000000
         keyUpLParam := keyDownLParam | 0xC0000000
 
-        PostMessage(0x100, virtualKey, keyDownLParam, , window)
-        PostMessage(0x101, virtualKey, keyUpLParam, , window)
+        PostMessage(0x100, virtualKey, keyDownLParam, , hwnd)
+        PostMessage(0x101, virtualKey, keyUpLParam, , hwnd)
     }
 }
 
